@@ -49,7 +49,7 @@ public class TaskAdapter extends RecycleAdapter<Task> implements View.OnLongClic
 
         if(holder instanceof TaskViewHolder){
             TaskViewHolder viewHolder  = (TaskViewHolder) holder;
-            viewHolder.item_task_tv_content.setText(data.getContent());
+            viewHolder.item_task_tv_content.setText(data.getDescription());
 
             viewHolder.item_task_fl_container.setTag(position);
             //viewHolder.item_task_fl_container.setOnTouchListener(this);

@@ -8,25 +8,20 @@ import java.util.Date;
 
 public class Task {
 
-
-    private String content;
-
     private Date createDate;
     private Date updateDate;
     private Status status;
     private Priority priority;
     private String assignee;
+    private String summary;
+    private String description;
 
-    public Task(String content) {
-        this.content = content;
+
+    public Task() {
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
+    public Task(String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
@@ -51,6 +46,22 @@ public class Task {
 
     public void setAssignee(String assignee) {
         this.assignee = assignee;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
 
