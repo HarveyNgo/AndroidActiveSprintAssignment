@@ -44,7 +44,10 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     private int selectedTaskType=0;
     private int selectedPriority=0;
-
+    private ArrayList<Task> todoTaskList;
+    private ArrayList<Task> progressTaskList;
+    private TaskAdapter todoListAdapter;
+    private TaskAdapter progressListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +76,23 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     }
 
     private void setupTodoList(){
-        ArrayList<Task> todoTaskList = new ArrayList<>();
+        todoTaskList = new ArrayList<>();
         todoTaskList.add(new Task("aa1"));
         todoTaskList.add(new Task("bb"));
-        TaskAdapter adapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
-        main_rv_todo_list.setAdapter(adapter);
+        todoListAdapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
+        main_rv_todo_list.setAdapter(todoListAdapter);
         main_rv_todo_list.setOnDragListener(new DragListener());
-        adapter.notifyDataSetChanged();
+        todoListAdapter.notifyDataSetChanged();
 
     }
     private void setupProgressList(){
-        ArrayList<Task> todoTaskList = new ArrayList<>();
-        todoTaskList.add(new Task("cc"));
-        todoTaskList.add(new Task("dd"));
-        TaskAdapter adapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
-        main_rv_progress_list.setAdapter(adapter);
+        progressTaskList = new ArrayList<>();
+        progressTaskList.add(new Task("cc"));
+        progressTaskList.add(new Task("dd"));
+        progressListAdapter = new TaskAdapter(getLayoutInflater(),progressTaskList,this);
+        main_rv_progress_list.setAdapter(progressListAdapter);
         main_rv_progress_list.setOnDragListener(new DragListener());
-        adapter.notifyDataSetChanged();
+        progressListAdapter.notifyDataSetChanged();
 
     }
 
@@ -130,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         task.setStatus(getTaskType(selectedTaskType));
         task.setPriority(getPriority(selectedPriority));
         task.setAssignee(((EditText)dialog.findViewById(R.id.new_task_et_assignee)).getText().toString());
+
+        if(todoTaskList == null)
+            todoTaskList = new ArrayList<>();
+        todoTaskList.add(task);
+        todoListAdapter.notifyDataSetChanged();
     }
 
 
