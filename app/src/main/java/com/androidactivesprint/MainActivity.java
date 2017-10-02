@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.androidactivesprint.Todo.TaskAdapter;
+import com.androidactivesprint.base.DragListener;
 import com.androidactivesprint.base.RecycleListener;
 import com.androidactivesprint.components.Task;
 
@@ -21,23 +22,29 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     @BindView(R.id.main_rv_todo_list)
     RecyclerView main_rv_todo_list;
 
+    @BindView(R.id.main_rv_progress_list)
+    RecyclerView main_rv_progress_list;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         MyApplication.setActiveActivity(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        setupRecycleView();
+        setupRecycleView(main_rv_todo_list);
+        setupRecycleView(main_rv_progress_list);
         setupTodoList();
+        setupProgressList();
     }
 
 
-    private void setupRecycleView() {
+    private void setupRecycleView(RecyclerView recyclerView) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(MyApplication.getActiveActivity());
         layoutManager.setAutoMeasureEnabled(true);
-        main_rv_todo_list.setLayoutManager(layoutManager);
-        main_rv_todo_list.setNestedScrollingEnabled(false);
-        main_rv_todo_list.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setHasFixedSize(true);
+
     }
 
     private void setupTodoList(){
@@ -46,6 +53,17 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         todoTaskList.add(new Task("bb"));
         TaskAdapter adapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
         main_rv_todo_list.setAdapter(adapter);
+        main_rv_todo_list.setOnDragListener(new DragListener());
+        adapter.notifyDataSetChanged();
+
+    }
+    private void setupProgressList(){
+        ArrayList<Task> todoTaskList = new ArrayList<>();
+        todoTaskList.add(new Task("cc"));
+        todoTaskList.add(new Task("dd"));
+        TaskAdapter adapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
+        main_rv_progress_list.setAdapter(adapter);
+        main_rv_progress_list.setOnDragListener(new DragListener());
         adapter.notifyDataSetChanged();
 
     }

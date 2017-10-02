@@ -20,7 +20,7 @@ public abstract class RecycleAdapter<T> extends RecyclerView.Adapter implements 
     public static final int HEADER_TYPE = 1;
     public static final int ITEM_TYPE = 2;
     public static final int FOOTER_TYPE = 3;
-    protected final ArrayList<T> items;
+    protected ArrayList<T> items;
     protected final RecycleListener<T> listener;
     private final LayoutInflater inflater;
 
@@ -143,4 +143,8 @@ public abstract class RecycleAdapter<T> extends RecyclerView.Adapter implements 
     protected void bindHeaderView(HeaderViewHolder<T> holder, T data, int position) {
         // override if there is header
     }
+
+//    protected void updateList(ArrayList<T> updateList){
+//        items = updateList;
+//    }
 }

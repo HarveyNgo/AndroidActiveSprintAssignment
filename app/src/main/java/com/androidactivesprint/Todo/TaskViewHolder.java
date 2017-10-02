@@ -1,11 +1,11 @@
 package com.androidactivesprint.Todo;
 
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.androidactivesprint.R;
 import com.androidactivesprint.base.ItemViewHolder;
-import com.androidactivesprint.components.Task;
 
 import butterknife.BindView;
 
@@ -15,8 +15,12 @@ import butterknife.BindView;
 
 public class TaskViewHolder extends ItemViewHolder<com.androidactivesprint.components.Task> {
 
-    @BindView(R.id.item_task_name)
-    TextView item_task_name;
+    @BindView(R.id.item_task_tv_content)
+    TextView item_task_tv_content;
+
+    @BindView(R.id.item_task_fl_container)
+    FrameLayout item_task_fl_container;
+
 
     public TaskViewHolder(View itemView) {
         super(itemView);
