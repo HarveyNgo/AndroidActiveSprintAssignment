@@ -7,21 +7,22 @@
     tools:context="com.androidactivesprint.MainActivity"
     android:background="@android:color/white">
 
-    <TextView
-        android:id="@+id/tvEmptyListTop"
+    <RelativeLayout
+        android:id="@+id/main_rl_header"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:background="#cccccc"
-        android:gravity="center"
-        android:textSize="20sp"
-        android:text="Top List is Empty!"
-        android:visibility="gone" />
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true">
+        <include
+            android:id="@+id/main_header"
+            layout="@layout/header"/>
+    </RelativeLayout>
 
    <LinearLayout
        android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:orientation="horizontal"
-       android:weightSum="3">
+       android:weightSum="3"
+       android:layout_below="@+id/main_rl_header">
 
        <LinearLayout
            android:id="@+id/main_ll_todo_list"
@@ -32,6 +33,11 @@
            android:layout_marginRight="5dp"
            android:background="@color/Light_gray">
 
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="5dp"
+               android:text="To Do"/>
            <android.support.v7.widget.RecyclerView
                android:id="@+id/main_rv_todo_list"
                android:layout_width="match_parent"
@@ -48,6 +54,11 @@
            android:layout_marginLeft="5dp"
            android:layout_marginRight="5dp"
            android:background="@color/Light_gray">
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="5dp"
+               android:text="In Progress"/>
            <android.support.v7.widget.RecyclerView
                android:id="@+id/main_rv_progress_list"
                android:layout_width="match_parent"
@@ -62,6 +73,11 @@
            android:orientation="vertical"
            android:layout_marginLeft="5dp"
            android:background="@color/Light_gray">
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="5dp"
+               android:text="Done"/>
 
        </LinearLayout>
 
