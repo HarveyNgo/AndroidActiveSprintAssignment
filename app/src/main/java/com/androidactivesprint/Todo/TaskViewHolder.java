@@ -2,6 +2,7 @@ package com.androidactivesprint.Todo;
 
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.androidactivesprint.R;
@@ -20,6 +21,12 @@ public class TaskViewHolder extends ItemViewHolder<com.androidactivesprint.compo
 
     @BindView(R.id.item_task_fl_container)
     FrameLayout item_task_fl_container;
+
+    @BindView(R.id.item_task_tv_assignee)
+    TextView item_task_tv_assignee;
+
+    @BindView(R.id.item_task_iv_priority)
+    ImageView item_task_iv_priority;
 
 
     public TaskViewHolder(View itemView) {

@@ -15,6 +15,7 @@ public class Task {
     private String assignee;
     private String summary;
     private String description;
+    private TaskType taskType;
 
 
     public Task() {
@@ -62,6 +63,30 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public TaskType getTaskType() {
+        return taskType;
+    }
+
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
     }
 }
 

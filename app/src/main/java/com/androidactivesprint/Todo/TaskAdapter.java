@@ -1,6 +1,7 @@
 package com.androidactivesprint.Todo;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +11,9 @@ import com.androidactivesprint.base.DragListener;
 import com.androidactivesprint.base.ItemViewHolder;
 import com.androidactivesprint.base.RecycleAdapter;
 import com.androidactivesprint.base.RecycleListener;
+import com.androidactivesprint.components.Priority;
 import com.androidactivesprint.components.Task;
+import com.androidactivesprint.tool.Utils;
 
 import java.util.ArrayList;
 
@@ -21,8 +24,12 @@ import java.util.ArrayList;
 public class TaskAdapter extends RecycleAdapter<Task> implements View.OnLongClickListener {
 
 
-    public TaskAdapter(LayoutInflater inflater, ArrayList<Task> items, RecycleListener<Task> listener) {
+    private Context mContext;
+    private RecycleListener<Task> listener;
+    public TaskAdapter(Context mContext,LayoutInflater inflater, ArrayList<Task> items, RecycleListener<Task> listener) {
         super(inflater, items, listener);
+        this.mContext =mContext;
+        this.listener = listener;
     }
 
     @Override
@@ -50,16 +57,22 @@ public class TaskAdapter extends RecycleAdapter<Task> implements View.OnLongClic
         if(holder instanceof TaskViewHolder){
             TaskViewHolder viewHolder  = (TaskViewHolder) holder;
             viewHolder.item_task_tv_content.setText(data.getDescription());
-
+            viewHolder.item_task_tv_assignee.setText(data.getAssignee());
             viewHolder.item_task_fl_container.setTag(position);
             //viewHolder.item_task_fl_container.setOnTouchListener(this);
             viewHolder.item_task_fl_container.setOnLongClickListener(this);
             viewHolder.item_task_fl_container.setOnDragListener(new DragListener());
+
+            viewHolder.item_task_iv_priority.setImageDrawable(Utils.getDrawable(
+                    data.getPriority()== Priority.High ? R.drawable.ic_arrow_red :
+                            data.getPriority()== Priority.Medium ? R.drawable.ic_arrow_orange : R.drawable.ic_arrow_green));
+            viewHolder.item_task_fl_container.setOnClickListener(v -> listener.onItemClick(v,data,position,View.NO_ID));
         }
     }
 
 
-//    @Override
+
+    //    @Override
 //    public boolean onTouch(View v, MotionEvent event) {
 //
 //    }

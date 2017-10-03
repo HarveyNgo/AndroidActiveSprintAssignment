@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.androidactivesprint.Todo.MyDialog;
 import com.androidactivesprint.Todo.TaskAdapter;
 import com.androidactivesprint.base.DragListener;
 import com.androidactivesprint.base.RecycleListener;
@@ -25,11 +26,12 @@ import com.androidactivesprint.components.Status;
 import com.androidactivesprint.components.Task;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements RecycleListener<Task>, AdapterView.OnItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements RecycleListener<Task>,MyDialog.MyDialogListener {
 
     @BindView(R.id.main_rv_todo_list)
     RecyclerView main_rv_todo_list;
@@ -49,12 +51,16 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     @BindView(R.id.header_iv_create_task)
     View header_iv_create_task;
 
-    private int selectedTaskType=0;
-    private int selectedPriority=0;
+
     private ArrayList<Task> todoTaskList;
     private ArrayList<Task> progressTaskList;
     private TaskAdapter todoListAdapter;
     private TaskAdapter progressListAdapter;
+    private Task selectedTask;
+
+    public static int ADD_TASK=1;
+    public static int UPDATE_TASK=2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         todoTaskList = new ArrayList<>();
         todoTaskList.add(new Task("aa"));
         todoTaskList.add(new Task("bb"));
-        todoListAdapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
+        todoListAdapter = new TaskAdapter(this,getLayoutInflater(),todoTaskList,this);
         main_rv_todo_list.setAdapter(todoListAdapter);
         main_rv_todo_list.setOnDragListener(new DragListener());
         todoListAdapter.notifyDataSetChanged();
@@ -95,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         progressTaskList = new ArrayList<>();
         progressTaskList.add(new Task("cc"));
         progressTaskList.add(new Task("dd"));
-        progressListAdapter = new TaskAdapter(getLayoutInflater(),progressTaskList,this);
+        progressListAdapter = new TaskAdapter(this,getLayoutInflater(),progressTaskList,this);
         main_rv_progress_list.setAdapter(progressListAdapter);
         main_rv_progress_list.setOnDragListener(new DragListener());
         progressListAdapter.notifyDataSetChanged();
@@ -111,92 +117,36 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     @Override
     public void onItemClick(View view, Task item, int position, int clickType) {
-
+        selectedTask = item;
+        showUpdateTaskDialog(item);
     }
 
     private void showCreateNewTaskDialog(){
-        final Dialog dialog = new Dialog(this, R.style.dialog_full_transparent_background);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.new_task);
-        Window window = dialog.getWindow();
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        wlp.gravity = Gravity.CENTER;
-        window.setAttributes(wlp);
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
-        Spinner new_task_spn_task_type = (Spinner) dialog.findViewById(R.id.new_task_spn_task_type);
-        ArrayAdapter<CharSequence> taskTypeAdapter = ArrayAdapter.createFromResource(this,R.array.task_type, android.R.layout.simple_spinner_item);
-        taskTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        new_task_spn_task_type.setAdapter(taskTypeAdapter);
-        new_task_spn_task_type.setOnItemSelectedListener(this);
-
-        Spinner new_task_spn_priority = (Spinner) dialog.findViewById(R.id.new_task_spn_priority);
-        ArrayAdapter<CharSequence> priorityTypeAdapter = ArrayAdapter.createFromResource(this,R.array.priority_type, android.R.layout.simple_spinner_item);
-        priorityTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        new_task_spn_priority.setAdapter(priorityTypeAdapter);
-        new_task_spn_priority.setOnItemSelectedListener(this);
-        TextView new_task_tv_create =(TextView) dialog.findViewById(R.id.new_task_tv_create);
-        TextView new_task_tv_cancel =(TextView) dialog.findViewById(R.id.new_task_tv_cancel);
-        new_task_tv_cancel.setOnClickListener(v -> dialog.dismiss());
-        new_task_tv_create.setOnClickListener(v -> createTask(dialog));
-        dialog.show();
+        MyDialog myDialog =  new MyDialog(this,null,this,ADD_TASK);
+        myDialog.show();
     }
 
-    private void createTask(Dialog dialog){
-        Task task = new Task();
-        task.setDescription(((EditText)dialog.findViewById(R.id.new_task_et_description)).getText().toString());
-        task.setSummary(((EditText)dialog.findViewById(R.id.new_task_et_summary)).getText().toString());
-        task.setStatus(getTaskType(selectedTaskType));
-        task.setPriority(getPriority(selectedPriority));
-        task.setAssignee(((EditText)dialog.findViewById(R.id.new_task_et_assignee)).getText().toString());
-
-        if(todoTaskList == null)
-            todoTaskList = new ArrayList<>();
-        todoTaskList.add(task);
-        todoListAdapter.notifyDataSetChanged();
-        dialog.dismiss();
-    }
-
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        switch (parent.getId()){
-            case R.id.new_task_spn_task_type:
-                selectedTaskType =position;
-                break;
-            case R.id.new_task_spn_priority:
-                selectedPriority = position;
-                break;
-        }
+    private void showUpdateTaskDialog(Task task){
+        MyDialog myDialog = new MyDialog(this,task,this,UPDATE_TASK);
+        myDialog.show();
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    private Status getTaskType(int index){
-        switch (index){
-            case 0:
-                return Status.TO_DO;
-            case 1:
-                return Status.IN_PROGRESS;
-            case 2:
-                return Status.DONE;
-            default:
-                return Status.TO_DO;
+    public void onFinish(Task task, int mType) {
+        if(mType == ADD_TASK){
+            if(todoTaskList == null)
+                todoTaskList = new ArrayList<>();
+            todoTaskList.add(task);
+            todoListAdapter.notifyDataSetChanged();
+        }else if(mType == UPDATE_TASK){
+                todoListAdapter.notifyDataSetChanged();
+//            if(progressTaskList == null)
+//                progressTaskList= new ArrayList<>();
+//            if(task.getStatus() == Status.TO_DO){
+//                if(todoTaskList == null)
+//                    todoTaskList = new ArrayList<>();
+//            }
         }
-    }
 
-    private Priority getPriority(int index){
-        switch (index){
-            case 0:
-                return Priority.High;
-            case 1:
-                return Priority.Medium;
-            case 2:
-                return Priority.Low;
-            default:
-                return Priority.Medium;
-        }
     }
 }

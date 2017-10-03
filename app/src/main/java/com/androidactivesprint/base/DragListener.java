@@ -45,9 +45,11 @@ public class DragListener implements View.OnDragListener {
                         RecyclerView target;
                         switch (viewId) {
                             case R.id.main_rv_todo_list:
+                            case R.id.main_ll_todo_list:
                                 target = (RecyclerView) v.getRootView().findViewById(R.id.main_rv_todo_list);
                                 break;
                             case R.id.main_rv_progress_list:
+                            case R.id.main_ll_progress_list:
                                 target = (RecyclerView) v.getRootView().findViewById(R.id.main_rv_progress_list);
                                 break;
                             default:
