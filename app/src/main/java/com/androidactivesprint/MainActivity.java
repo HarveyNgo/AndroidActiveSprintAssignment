@@ -143,14 +143,14 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
                 todoTaskList = new ArrayList<>();
             todoTaskList.add(task);
             todoListAdapter.notifyDataSetChanged();
-        }else if(mType == UPDATE_TASK){
+        }else if(mType == UPDATE_TASK) {
+            if(todoListAdapter !=null)
                 todoListAdapter.notifyDataSetChanged();
-//            if(progressTaskList == null)
-//                progressTaskList= new ArrayList<>();
-//            if(task.getStatus() == Status.TO_DO){
-//                if(todoTaskList == null)
-//                    todoTaskList = new ArrayList<>();
-//            }
+            if(progressListAdapter !=null)
+                progressListAdapter.notifyDataSetChanged();
+            if(doneListAdapter !=null)
+                doneListAdapter.notifyDataSetChanged();
+
         }
 
     }

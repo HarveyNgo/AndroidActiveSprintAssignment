@@ -56,11 +56,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -72,7 +74,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <TextView
@@ -87,11 +89,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,7 +107,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <Spinner
@@ -122,11 +126,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -138,7 +144,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <EditText
@@ -154,11 +160,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -170,13 +178,13 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <EditText
                         android:id="@+id/new_task_et_description"
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
+                        android:layout_height="200dp"
                         android:background="@drawable/rectangle_border_round_corner"
                         android:textSize="12sp"/>
                 </RelativeLayout>
@@ -186,11 +194,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -202,7 +212,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <Spinner
@@ -216,11 +226,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:weightSum="10">
+                android:weightSum="10"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp">
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
+                    android:layout_weight="3"
                     android:layout_marginRight="5dp">
                     <TextView
                         android:layout_width="wrap_content"
@@ -232,7 +244,7 @@
                 <RelativeLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="8"
+                    android:layout_weight="7"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp">
                     <EditText
