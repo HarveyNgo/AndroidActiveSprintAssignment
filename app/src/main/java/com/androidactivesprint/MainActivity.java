@@ -1,32 +1,20 @@
 package com.androidactivesprint;
 
-import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import com.androidactivesprint.Todo.MyDialog;
-import com.androidactivesprint.Todo.TaskAdapter;
+import com.androidactivesprint.adapter.MyDialog;
+import com.androidactivesprint.adapter.TaskAdapter;
 import com.androidactivesprint.base.DragListener;
 import com.androidactivesprint.base.RecycleListener;
-import com.androidactivesprint.components.Priority;
 import com.androidactivesprint.components.Status;
 import com.androidactivesprint.components.Task;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,11 +27,17 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     @BindView(R.id.main_rv_progress_list)
     RecyclerView main_rv_progress_list;
 
+    @BindView(R.id.main_rv_done_list)
+    RecyclerView main_rv_done_list;
+
     @BindView(R.id.main_ll_progress_list)
     LinearLayout main_ll_progress_list;
 
     @BindView(R.id.main_ll_todo_list)
     LinearLayout main_ll_todo_list;
+
+    @BindView(R.id.main_ll_done_list)
+    LinearLayout main_ll_done_list;
 
     @BindView(R.id.main_header)
     View main_header;
@@ -51,12 +45,13 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     @BindView(R.id.header_iv_create_task)
     View header_iv_create_task;
 
-
     private ArrayList<Task> todoTaskList;
     private ArrayList<Task> progressTaskList;
+    private ArrayList<Task> doneTaskList;
     private TaskAdapter todoListAdapter;
     private TaskAdapter progressListAdapter;
-    private Task selectedTask;
+    private TaskAdapter doneListAdapter;
+//    private Task selectedTask;
 
     public static int ADD_TASK=1;
     public static int UPDATE_TASK=2;
@@ -71,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         configureHeader();
         setupRecycleView(main_rv_todo_list);
         setupRecycleView(main_rv_progress_list);
+        setupRecycleView(main_rv_done_list);
         setupView();
     }
 
@@ -91,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         todoTaskList = new ArrayList<>();
         todoTaskList.add(new Task("aa"));
         todoTaskList.add(new Task("bb"));
-        todoListAdapter = new TaskAdapter(this,getLayoutInflater(),todoTaskList,this);
+        todoListAdapter = new TaskAdapter(Status.TO_DO,getLayoutInflater(),todoTaskList,this);
         main_rv_todo_list.setAdapter(todoListAdapter);
         main_rv_todo_list.setOnDragListener(new DragListener());
         todoListAdapter.notifyDataSetChanged();
@@ -101,23 +97,32 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         progressTaskList = new ArrayList<>();
         progressTaskList.add(new Task("cc"));
         progressTaskList.add(new Task("dd"));
-        progressListAdapter = new TaskAdapter(this,getLayoutInflater(),progressTaskList,this);
+        progressListAdapter = new TaskAdapter(Status.IN_PROGRESS,getLayoutInflater(),progressTaskList,this);
         main_rv_progress_list.setAdapter(progressListAdapter);
         main_rv_progress_list.setOnDragListener(new DragListener());
         progressListAdapter.notifyDataSetChanged();
+    }
 
+    private void setupDoneList(){
+        doneTaskList = new ArrayList<>();
+        doneListAdapter = new TaskAdapter(Status.DONE,getLayoutInflater(),doneTaskList,this);
+        main_rv_done_list.setAdapter(doneListAdapter);
+        main_rv_done_list.setOnDragListener(new DragListener());
+        doneListAdapter.notifyDataSetChanged();
     }
 
     private void setupView(){
         setupTodoList();
         setupProgressList();
+        setupDoneList();
         main_ll_todo_list.setOnDragListener(new DragListener());
         main_ll_progress_list.setOnDragListener(new DragListener());
+        main_ll_done_list.setOnDragListener(new DragListener());
     }
 
     @Override
     public void onItemClick(View view, Task item, int position, int clickType) {
-        selectedTask = item;
+        //selectedTask = item;
         showUpdateTaskDialog(item);
     }
 
@@ -150,3 +155,4 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     }
 }
+

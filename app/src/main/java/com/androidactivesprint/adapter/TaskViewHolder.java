@@ -1,4 +1,4 @@
-package com.androidactivesprint.Todo;
+package com.androidactivesprint.adapter;
 
 import android.view.View;
 import android.widget.FrameLayout;

@@ -5,11 +5,10 @@ import android.view.DragEvent;
 import android.view.View;
 
 import com.androidactivesprint.R;
-import com.androidactivesprint.Todo.TaskAdapter;
+import com.androidactivesprint.adapter.TaskAdapter;
 import com.androidactivesprint.components.Task;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Hung on 10/2/2017.
@@ -41,6 +40,8 @@ public class DragListener implements View.OnDragListener {
                     case R.id.item_task_fl_container:
                     case R.id.main_ll_todo_list:
                     case R.id.main_ll_progress_list:
+                    case R.id.main_ll_done_list:
+                    case R.id.main_rv_done_list:
 
                         RecyclerView target;
                         switch (viewId) {
@@ -52,6 +53,10 @@ public class DragListener implements View.OnDragListener {
                             case R.id.main_ll_progress_list:
                                 target = (RecyclerView) v.getRootView().findViewById(R.id.main_rv_progress_list);
                                 break;
+                            case R.id.main_rv_done_list:
+                            case R.id.main_ll_done_list:
+                                target = (RecyclerView) v.getRootView().findViewById(R.id.main_rv_done_list);
+                                break;
                             default:
                                 target = (RecyclerView) v.getParent();
                                 positionTarget = (int) v.getTag();
@@ -62,7 +67,7 @@ public class DragListener implements View.OnDragListener {
 
                             TaskAdapter adapterSource = (TaskAdapter) source.getAdapter();
                             int positionSource = (int) viewSource.getTag();
-                            int sourceId = source.getId();
+                            //int sourceId = source.getId();
 
                             Task task = adapterSource.getList().get(positionSource);
                             ArrayList<Task> listSource = adapterSource.getList();
@@ -73,6 +78,7 @@ public class DragListener implements View.OnDragListener {
 
                             TaskAdapter adapterTarget = (TaskAdapter) target.getAdapter();
                             ArrayList<Task> customListTarget = adapterTarget.getList();
+                            task.setStatus(adapterTarget.getAdapterStatus());
                             if (positionTarget >= 0) {
                                 customListTarget.add(positionTarget, task);
                             } else {
@@ -80,19 +86,6 @@ public class DragListener implements View.OnDragListener {
                             }
                             adapterTarget.updateList(customListTarget);
                             adapterTarget.notifyDataSetChanged();
-
-//                            if (sourceId == rvBottom && adapterSource.getItemCount() < 1) {
-//                                listener.setEmptyListBottom(true);
-//                            }
-//                            if (viewId == tvEmptyListBottom) {
-//                                listener.setEmptyListBottom(false);
-//                            }
-//                            if (sourceId == rvTop && adapterSource.getItemCount() < 1) {
-//                                listener.setEmptyListTop(true);
-//                            }
-//                            if (viewId == tvEmptyListTop) {
-//                                listener.setEmptyListTop(false);
-//                            }
                         }
                         break;
                 }
