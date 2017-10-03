@@ -176,10 +176,8 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.new_task_spn_task_type:
-                //selectedTaskType =position;
                 break;
             case R.id.new_task_spn_priority:
-//                selectedPriority = position;
                 break;
         }
     }

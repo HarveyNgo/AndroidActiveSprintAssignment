@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.Matchers.instanceOf;
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 
@@ -74,29 +76,40 @@ public class TaskAdapterTest {
     }
 
     @Test
-    public void onLongClickRecyleView(){
+    public void moveTaskFromTodoListToDoneList(){
         MainActivity activity = rule.getActivity();
-        RecyclerView main_rv_todo_list = (RecyclerView) activity.findViewById(R.id.main_rv_todo_list);
-
-        ArrayList<Task> progressTaskList = new ArrayList<>();
-        progressTaskList.add(new Task("aa"));
-        progressTaskList.add(new Task("bb"));
-        TaskAdapter todoListAdapter = new TaskAdapter(Status.IN_PROGRESS,activity.getLayoutInflater(),progressTaskList,null);
-        assertNotNull(todoListAdapter);
+        RecyclerView targetList = (RecyclerView) activity.findViewById(R.id.main_rv_done_list);
+        RecyclerView sourceList = (RecyclerView) activity.findViewById(R.id.main_rv_todo_list);
+        assertNotNull(targetList);
+        assertNotNull(sourceList);
+        int positionSource = 1; // assume 1st item in to_do list will be moved to done list
+        int positionTarget=0; // new item will be move to position 0
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                main_rv_todo_list.setAdapter(todoListAdapter);
-                main_rv_todo_list.setOnDragListener(new DragListener(){
-                    @Override
-                    public boolean onDrag(View v, DragEvent event) {
-                        return super.onDrag(v, event);
-                    }
-                });
-                todoListAdapter.notifyDataSetChanged();
-                assertNotNull(todoListAdapter);
+                TaskAdapter adapterSource = (TaskAdapter) sourceList.getAdapter();
+                Task task = adapterSource.getList().get(positionSource);
+                assertNotNull(task);
+                ArrayList<Task> listSource = adapterSource.getList();
+                listSource.remove(positionSource);
+                assertEquals(listSource.size(),1); //after remove check only 1 item
+                adapterSource.updateList(listSource);
+                adapterSource.notifyDataSetChanged();
+                assertEquals(adapterSource.getItemCount(),1); //after remove adapter have only 1 item
+
+                TaskAdapter adapterTarget = (TaskAdapter) targetList.getAdapter();
+                ArrayList<Task> customListTarget = adapterTarget.getList();
+                task.setStatus(adapterTarget.getAdapterStatus());
+                if (positionTarget >= 0) {
+                    customListTarget.add(positionTarget, task);
+                } else {
+                    customListTarget.add(task);
+                }
+                assertEquals(customListTarget.size(),1); //after add check have 1 item
+                adapterTarget.updateList(customListTarget);
+                adapterTarget.notifyDataSetChanged();
+                assertEquals(adapterTarget.getItemCount(),1); //after add adapter have 1 item
             }
         });
-
     }
 }
