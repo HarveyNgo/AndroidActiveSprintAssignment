@@ -18,11 +18,6 @@ import java.util.ArrayList;
 public class DragListener implements View.OnDragListener {
 
     private boolean isDropped = false;
-   // private Listener listener;
-
-//    DragListener(Listener listener) {
-//        this.listener = listener;
-//    }
 
     @Override
     public boolean onDrag(View v, DragEvent event) {

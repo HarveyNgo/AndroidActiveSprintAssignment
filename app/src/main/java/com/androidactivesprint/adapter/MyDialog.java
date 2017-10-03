@@ -21,6 +21,7 @@ import com.androidactivesprint.components.Priority;
 import com.androidactivesprint.components.Status;
 import com.androidactivesprint.components.Task;
 import com.androidactivesprint.components.TaskType;
+import com.androidactivesprint.tool.DateUtility;
 
 import java.util.Date;
 
@@ -57,8 +58,12 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
     @BindView(R.id.new_task_tv_cancel)
     TextView new_task_tv_cancel;
 
-    private int selectedTaskType=0;
-    private int selectedPriority=0;
+    @BindView(R.id.new_task_tv_create_date)
+    TextView new_task_tv_create_date;
+
+    @BindView(R.id.new_task_tv_update_date)
+    TextView new_task_tv_update_date;
+
     private Context mContext;
     private Task mTask;
     private MyDialogListener mListener;
@@ -129,6 +134,9 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
         new_task_et_assignee.setText(t.getAssignee());
         new_task_spn_task_type.setSelection(getTaskTypePosition(t.getTaskType()));
         new_task_spn_priority.setSelection(getPriorityPosition(t.getPriority()));
+        new_task_tv_create_date.setText(DateUtility.formatDate(t.getCreateDate(), DateUtility.DateFormatDefinition.YYYY_MM_DD));
+        new_task_tv_update_date.setText(t.getUpdateDate() == null ? "" :
+                DateUtility.formatDate(t.getUpdateDate(), DateUtility.DateFormatDefinition.YYYY_MM_DD));
 
     }
     private void implementCreateUpdate(){
@@ -145,8 +153,8 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
         task.setDescription(new_task_et_description.getText().toString());
         task.setSummary(new_task_et_summary.getText().toString());
         task.setStatus(Status.TO_DO);
-        task.setTaskType(getTaskType(selectedTaskType));
-        task.setPriority(getPriority(selectedPriority));
+        task.setTaskType(getTaskType(new_task_spn_task_type.getSelectedItemPosition()));
+        task.setPriority(getPriority(new_task_spn_priority.getSelectedItemPosition()));
         task.setAssignee(new_task_et_assignee.getText().toString());
         task.setCreateDate(new Date());
         mListener.onFinish(task,mType);
@@ -156,8 +164,8 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
         if(mTask != null){
             mTask.setDescription(new_task_et_description.getText().toString());
             mTask.setSummary(new_task_et_summary.getText().toString());
-            mTask.setTaskType(getTaskType(selectedTaskType));
-            mTask.setPriority(getPriority(selectedPriority));
+            mTask.setTaskType(getTaskType(new_task_spn_task_type.getSelectedItemPosition()));
+            mTask.setPriority(getPriority(new_task_spn_priority.getSelectedItemPosition()));
             mTask.setAssignee(new_task_et_assignee.getText().toString());
             mTask.setUpdateDate(new Date());
             mListener.onFinish(mTask,mType);
@@ -168,10 +176,10 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.new_task_spn_task_type:
-                selectedTaskType =position;
+                //selectedTaskType =position;
                 break;
             case R.id.new_task_spn_priority:
-                selectedPriority = position;
+//                selectedPriority = position;
                 break;
         }
     }
@@ -180,19 +188,6 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-//    private Status getStatus(int index){
-//        switch (index){
-//            case 0:
-//                return Status.TO_DO;
-//            case 1:
-//                return Status.IN_PROGRESS;
-//            case 2:
-//                return Status.DONE;
-//            default:
-//                return Status.TO_DO;
-//        }
-//    }
 
     private TaskType getTaskType(int index){
         switch (index){
@@ -217,17 +212,6 @@ public class MyDialog extends Dialog implements AdapterView.OnItemSelectedListen
         }else
             return 0;
     }
-
-//    private int getStatusPosition(Status s){
-//        if(s == Status.TO_DO){
-//            return 0;
-//        }else if(s == Status.IN_PROGRESS){
-//            return 1;
-//        }else  if(s == Status.DONE){
-//            return 2;
-//        }else
-//            return 0;
-//    }
 
     private Priority getPriority(int index){
         switch (index){
