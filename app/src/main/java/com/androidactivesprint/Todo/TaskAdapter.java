@@ -13,6 +13,7 @@ import com.androidactivesprint.base.RecycleAdapter;
 import com.androidactivesprint.base.RecycleListener;
 import com.androidactivesprint.components.Priority;
 import com.androidactivesprint.components.Task;
+import com.androidactivesprint.components.TaskType;
 import com.androidactivesprint.tool.Utils;
 
 import java.util.ArrayList;
@@ -66,6 +67,11 @@ public class TaskAdapter extends RecycleAdapter<Task> implements View.OnLongClic
             viewHolder.item_task_iv_priority.setImageDrawable(Utils.getDrawable(
                     data.getPriority()== Priority.High ? R.drawable.ic_arrow_red :
                             data.getPriority()== Priority.Medium ? R.drawable.ic_arrow_orange : R.drawable.ic_arrow_green));
+
+            viewHolder.item_task_iv_task_type.setImageDrawable(Utils.getDrawable(
+                    data.getTaskType() == TaskType.STORY ? R.drawable.ic_story :
+                            data.getTaskType() == TaskType.TASK ? R.drawable.ic_task : R.drawable.ic_bug));
+
             viewHolder.item_task_fl_container.setOnClickListener(v -> listener.onItemClick(v,data,position,View.NO_ID));
         }
     }

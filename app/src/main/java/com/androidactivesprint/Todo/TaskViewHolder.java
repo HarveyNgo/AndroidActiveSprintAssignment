@@ -28,6 +28,9 @@ public class TaskViewHolder extends ItemViewHolder<com.androidactivesprint.compo
     @BindView(R.id.item_task_iv_priority)
     ImageView item_task_iv_priority;
 
+    @BindView(R.id.item_task_iv_task_type)
+    ImageView item_task_iv_task_type;
+
 
     public TaskViewHolder(View itemView) {
         super(itemView);
