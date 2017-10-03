@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:text="Cancel"
             android:layout_alignParentEnd="true"
-            android:padding="7dp"
             android:background="@color/colorPrimary"
             android:textColor="@android:color/white"
             android:layout_marginLeft="10dp"/>
@@ -45,7 +44,7 @@
     </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
         android:layout_below="@+id/new_task_rl_header"
         android:layout_above="@+id/new_task_rl_footer">

@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -36,6 +37,12 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     @BindView(R.id.main_rv_progress_list)
     RecyclerView main_rv_progress_list;
 
+    @BindView(R.id.main_ll_progress_list)
+    LinearLayout main_ll_progress_list;
+
+    @BindView(R.id.main_ll_todo_list)
+    LinearLayout main_ll_todo_list;
+
     @BindView(R.id.main_header)
     View main_header;
 
@@ -58,8 +65,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         configureHeader();
         setupRecycleView(main_rv_todo_list);
         setupRecycleView(main_rv_progress_list);
-        setupTodoList();
-        setupProgressList();
+        setupView();
     }
 
     private void configureHeader(){
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     private void setupTodoList(){
         todoTaskList = new ArrayList<>();
-        todoTaskList.add(new Task("aa1"));
+        todoTaskList.add(new Task("aa"));
         todoTaskList.add(new Task("bb"));
         todoListAdapter = new TaskAdapter(getLayoutInflater(),todoTaskList,this);
         main_rv_todo_list.setAdapter(todoListAdapter);
@@ -94,6 +100,13 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         main_rv_progress_list.setOnDragListener(new DragListener());
         progressListAdapter.notifyDataSetChanged();
 
+    }
+
+    private void setupView(){
+        setupTodoList();
+        setupProgressList();
+        main_ll_todo_list.setOnDragListener(new DragListener());
+        main_ll_progress_list.setOnDragListener(new DragListener());
     }
 
     @Override
@@ -122,12 +135,14 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         new_task_spn_priority.setAdapter(priorityTypeAdapter);
         new_task_spn_priority.setOnItemSelectedListener(this);
         TextView new_task_tv_create =(TextView) dialog.findViewById(R.id.new_task_tv_create);
+        TextView new_task_tv_cancel =(TextView) dialog.findViewById(R.id.new_task_tv_cancel);
+        new_task_tv_cancel.setOnClickListener(v -> dialog.dismiss());
         new_task_tv_create.setOnClickListener(v -> createTask(dialog));
         dialog.show();
     }
 
     private void createTask(Dialog dialog){
-       Task task = new Task();
+        Task task = new Task();
         task.setDescription(((EditText)dialog.findViewById(R.id.new_task_et_description)).getText().toString());
         task.setSummary(((EditText)dialog.findViewById(R.id.new_task_et_summary)).getText().toString());
         task.setStatus(getTaskType(selectedTaskType));
@@ -138,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
             todoTaskList = new ArrayList<>();
         todoTaskList.add(task);
         todoListAdapter.notifyDataSetChanged();
+        dialog.dismiss();
     }
 
 
@@ -145,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         switch (parent.getId()){
             case R.id.new_task_spn_task_type:
-                Status s = Status.valueOf("TO_DO");
                 selectedTaskType =position;
                 break;
             case R.id.new_task_spn_priority:
