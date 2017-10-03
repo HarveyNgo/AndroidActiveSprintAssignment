@@ -93,7 +93,6 @@ public class MyDialogTest{
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Task t = new Task();
                 MyDialog myDialog = new MyDialog(activity, null, new MyDialog.MyDialogListener() {
                     @Override
                     public void onFinish(Task task, int type) {

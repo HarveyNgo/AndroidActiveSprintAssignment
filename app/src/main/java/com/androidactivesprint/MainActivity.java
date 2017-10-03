@@ -51,10 +51,9 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
     private TaskAdapter todoListAdapter;
     private TaskAdapter progressListAdapter;
     private TaskAdapter doneListAdapter;
-//    private Task selectedTask;
 
-    public static int ADD_TASK=1;
-    public static int UPDATE_TASK=2;
+    public static final int ADD_TASK=1;
+    public static final int UPDATE_TASK=2;
 
 
     @Override
@@ -67,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         setupRecycleView(main_rv_todo_list);
         setupRecycleView(main_rv_progress_list);
         setupRecycleView(main_rv_done_list);
-        setupView();
+        initView();
     }
 
     private void configureHeader(){
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     }
 
-    private void setupTodoList(){
+    private void initTodoList(){
         todoTaskList = new ArrayList<>();
         todoTaskList.add(new Task("aa"));
         todoTaskList.add(new Task("bb"));
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         todoListAdapter.notifyDataSetChanged();
 
     }
-    private void setupProgressList(){
+    private void initProgressList(){
         progressTaskList = new ArrayList<>();
         progressTaskList.add(new Task("cc"));
         progressTaskList.add(new Task("dd"));
@@ -103,7 +102,7 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         progressListAdapter.notifyDataSetChanged();
     }
 
-    private void setupDoneList(){
+    private void initDoneList(){
         doneTaskList = new ArrayList<>();
         doneListAdapter = new TaskAdapter(Status.DONE,getLayoutInflater(),doneTaskList,this);
         main_rv_done_list.setAdapter(doneListAdapter);
@@ -111,10 +110,10 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
         doneListAdapter.notifyDataSetChanged();
     }
 
-    private void setupView(){
-        setupTodoList();
-        setupProgressList();
-        setupDoneList();
+    private void initView(){
+        initTodoList();
+        initProgressList();
+        initDoneList();
         main_ll_todo_list.setOnDragListener(new DragListener());
         main_ll_progress_list.setOnDragListener(new DragListener());
         main_ll_done_list.setOnDragListener(new DragListener());
@@ -122,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements RecycleListener<T
 
     @Override
     public void onItemClick(View view, Task item, int position, int clickType) {
-        //selectedTask = item;
         showUpdateTaskDialog(item);
     }
 
